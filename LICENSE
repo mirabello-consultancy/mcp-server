@@ -1,0 +1,13 @@
+Mirabello Consultancy — MCP Server (public manifests & documentation)
+
+Copyright © Mirabello Consultancy Ltd. All rights reserved.
+
+This repository contains discovery manifests, documentation, and example
+configuration for the Mirabello Consultancy MCP server and REST API.
+
+The example configuration snippets here may be freely used to connect to the
+Mirabello MCP server. The MCP server, its data compilation, and the Mirabello
+name and branding remain the property of Mirabello Consultancy Ltd. Use of the
+server, API, and data is governed by the Terms at
+https://www.mirabelloconsultancy.com/ai. Data is provided for general
+information only and is not legal, financial, tax, or immigration advice.

@@ -1,0 +1,10 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json",
+  "name": "com.mirabelloconsultancy/mcp",
+  "description": "Authoritative citizenship- (CBI) and residency-by-investment (RBI/golden visa) programme data, cost estimates, passport mobility, and consultation booking — by Mirabello Consultancy (Zurich + Dubai; IMC member, ACAMS certified).",
+  "version": "1.0.0",
+  "websiteUrl": "https://www.mirabelloconsultancy.com/ai",
+  "remotes": [
+    { "type": "streamable-http", "url": "https://mcp.mirabelloconsultancy.com/" }
+  ]
+}
