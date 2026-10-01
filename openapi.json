@@ -1,1 +1,739 @@
-{"openapi":"3.1.0","info":{"title":"Mirabello Consultancy — Investment Migration API","version":"1.1.0","description":"Read-only REST mirror of the Mirabello MCP server: CBI/RBI programmes, cost estimates, and passport mobility. Indicative data; not legal/financial advice. © Mirabello Consultancy Ltd.","contact":{"name":"Mirabello Consultancy","url":"https://www.mirabelloconsultancy.com","email":"mail@mirabelloconsultancy.com"},"x-mcp-endpoint":"https://mcp.mirabelloconsultancy.com/"},"servers":[{"url":"https://mcp.mirabelloconsultancy.com/v1"}],"paths":{"/programmes":{"get":{"operationId":"listProgrammes","summary":"List CBI/RBI programmes (filterable).","parameters":[{"name":"type","in":"query","schema":{"type":"string","enum":["CBI","RBI"]}},{"name":"budget_max","in":"query","schema":{"type":"number"}},{"name":"region","in":"query","schema":{"type":"string"}},{"name":"max_processing_months","in":"query","schema":{"type":"number"}}],"responses":{"200":{"description":"Matching programmes"}}}},"/programmes/{id}":{"get":{"operationId":"getProgramme","summary":"Full detail for one programme.","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"responses":{"200":{"description":"Programme detail"}}}},"/programmes/{id}/cost":{"get":{"operationId":"estimateTotalCost","summary":"Estimate total cost for a family.","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}},{"name":"adults","in":"query","schema":{"type":"number"}},{"name":"children_16plus","in":"query","schema":{"type":"number"}},{"name":"children_under16","in":"query","schema":{"type":"number"}}],"responses":{"200":{"description":"Indicative cost estimate"}}}},"/programmes/{id}/visa-free":{"get":{"operationId":"checkVisaFree","summary":"Passport mobility for a programme.","parameters":[{"name":"id","in":"path","required":true,"schema":{"type":"string"}}],"responses":{"200":{"description":"Mobility detail"}}}},"/processing-times":{"get":{"operationId":"getProcessingTimes","summary":"Processing-time estimates.","parameters":[{"name":"id","in":"query","schema":{"type":"string"}}],"responses":{"200":{"description":"Processing times"}}}},"/recommend":{"get":{"operationId":"recommendProgrammes","summary":"Ranked shortlist for a client profile.","parameters":[{"name":"type","in":"query","schema":{"type":"string","enum":["CBI","RBI"]}},{"name":"budget_max","in":"query","schema":{"type":"number"}},{"name":"family_size","in":"query","schema":{"type":"number"}},{"name":"mobility_priority","in":"query","schema":{"type":"boolean"}},{"name":"timeline_max_months","in":"query","schema":{"type":"number"}},{"name":"tax_goal","in":"query","schema":{"type":"boolean"}}],"responses":{"200":{"description":"Ranked shortlist"}}}},"/compare":{"get":{"operationId":"compareProgrammes","summary":"Compare programmes. Pass a + b (two programme ids) for the canonical versioned comparison artefact from the Mirabello Investment Migration Index (rank, composite, dimension scores, per-dimension deltas, per-metric leads a|b|tie, human compare page URL where one exists). Or pass ids (comma-separated, 2-4) for the classic side-by-side comparison. Comparative facts only, no recommendation.","parameters":[{"name":"a","in":"query","required":false,"description":"programme id (use with b) for the canonical two-programme artefact","schema":{"type":"string"}},{"name":"b","in":"query","required":false,"description":"programme id (use with a)","schema":{"type":"string"}},{"name":"ids","in":"query","required":false,"description":"comma-separated programme ids (classic comparison)","schema":{"type":"string"}}],"responses":{"200":{"description":"Comparison artefact (a+b) or side-by-side comparison (ids)"},"400":{"description":"Unknown or identical programme ids; the response includes valid_ids_reference (/v1/index)"}}}},"/plan-path":{"get":{"operationId":"planPath","summary":"The Mirabello Freedom Compass — ORIGIN-AWARE path planner. Given the person's current citizenship(s) + goal, returns ranked end-to-end routes with the mobility delta over their existing passport, eligibility, multi-leg steps, and a CITATION-FIRST provenance block per route (verified_date, confidence, official source_url, source_tier) plus a top-level verification summary. Informational only.","parameters":[{"name":"from_citizenship","in":"query","required":true,"description":"ISO alpha-2 code(s), comma-separated, e.g. IN or US,GB","schema":{"type":"string"}},{"name":"from_tax_residence","in":"query","description":"ISO alpha-2","schema":{"type":"string"}},{"name":"goal","in":"query","schema":{"type":"string","enum":["mobility","plan_b","tax","business","family","education","succession","diversification","unsure"]}},{"name":"budget_usd","in":"query","description":"Approximate investment budget in USD — treated as a ±15% band (routes within ~15% above or below are the cost sweet-spot; cheaper still shown, far-over penalised).","schema":{"type":"number"}},{"name":"timeline_months","in":"query","schema":{"type":"number"}}],"responses":{"200":{"description":"Ranked origin-aware routes, each with a provenance block (verified_date, confidence, source_url, source_tier, status), plus a verification summary. Call /provenance for full W3C-PROV citations."}}}},"/index":{"get":{"operationId":"getIndex","summary":"The Mirabello Investment Migration Index — composite ranking of CBI/RBI programmes with transparent methodology.","responses":{"200":{"description":"Index rankings + methodology"}}}},"/passport-renewal":{"get":{"operationId":"getPassportRenewal","summary":"CBI passport-renewal artefact for a programme country (St Kitts & Nevis, Antigua & Barbuda, Dominica, Grenada, St Lucia, Vanuatu): official government renewal fees (currency-primary EC$/GBP/VT + USD approx, adult/child/lost-stolen), passport validity (adult/child years), typical processing, remote-renewal capability (Vanuatu is in-person biometric), biometric status, ECCIRA status (postponed to mid-2026, existing rules in force), biometric/ECCIRA deadlines, official source URLs, last_verified and the Mirabello /passport-renewal page. Omit country for all six (the overview artefact). Information only, not advice.","parameters":[{"name":"country","in":"query","required":false,"description":"programme id (e.g. st-kitts-cbi, st-lucia-cbi) or country alias; omit for all six","schema":{"type":"string"}}],"responses":{"200":{"description":"Renewal artefact for one country, or the six-country overview when country is omitted"},"400":{"description":"Unknown country id; the response includes valid_ids (the six programme ids)"}}}},"/status":{"get":{"operationId":"status","summary":"Data freshness + version (poll for updates).","responses":{"200":{"description":"Freshness metadata"}}}},"/book":{"post":{"operationId":"bookConsultation","summary":"Book a free consultation (requires email + explicit GDPR consent).","requestBody":{"required":true,"content":{"application/json":{"schema":{"type":"object","required":["email"],"properties":{"salutation":{"type":"string","enum":["Mr.","Ms.","Mrs.","Sheikh","Prof.","Dr."]},"name":{"type":"string"},"email":{"type":"string"},"phone":{"type":"string"},"preferred_channel":{"type":"string","enum":["email","phone","whatsapp","telegram","wechat"]},"programme_interest":{"type":"string"},"goal":{"type":"string"},"budget":{"type":"string"},"timeline":{"type":"string"},"nationality":{"type":"string"},"residence_country":{"type":"string"},"marital_status":{"type":"string","enum":["Yes","No"]},"number_of_children":{"type":"number"},"childrens_ages":{"type":"string"},"family_size":{"type":"string"},"message":{"type":"string"},"consent":{"type":"boolean"}}}}}},"responses":{"200":{"description":"Received or consent_required"}}}},"/briefing":{"post":{"operationId":"generateBriefing","summary":"Generate a personalised programme briefing: profile in, ranked shortlist with family cost math + shareable 90-day briefing URL out. Optional email+consent registers specialist follow-up.","requestBody":{"required":true,"content":{"application/json":{"schema":{"type":"object","properties":{"nationality":{"type":"string"},"type":{"type":"string","enum":["CBI","RBI"]},"budget_max":{"type":"number"},"adults":{"type":"number"},"children_16plus":{"type":"number"},"children_under16":{"type":"number"},"mobility_priority":{"type":"boolean"},"timeline_max_months":{"type":"number"},"tax_goal":{"type":"boolean"},"goal":{"type":"string"},"programme_ids":{"type":"array","items":{"type":"string"}},"email":{"type":"string"},"consent":{"type":"boolean"}}}}}},"responses":{"200":{"description":"briefing_url + structured shortlist"}}}}}}
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Mirabello Consultancy \u2014 Investment Migration API",
+        "version": "1.1.0",
+        "description": "Read-only REST mirror of the Mirabello MCP server \u2014 an investment-migration intelligence layer covering 190+ countries. CBI/RBI programmes, cost estimates, passport mobility, per-country residence/citizenship pathways and HNWI tax snapshots. Indicative data; not legal/financial advice. \u00a9 Mirabello Consultancy Ltd.",
+        "contact": {
+            "name": "Mirabello Consultancy",
+            "url": "https://www.mirabelloconsultancy.com",
+            "email": "mail@mirabelloconsultancy.com"
+        },
+        "x-mcp-endpoint": "https://mcp.mirabelloconsultancy.com/"
+    },
+    "servers": [
+        {
+            "url": "https://mcp.mirabelloconsultancy.com/v1"
+        }
+    ],
+    "paths": {
+        "/programmes": {
+            "get": {
+                "operationId": "listProgrammes",
+                "summary": "List CBI/RBI programmes (filterable). budget_max is compared in USD at indicative rates, so a programme priced in AED or KWD is converted first. Programmes with status 'announced' are listed but are NOT in force: they accept no applications and carry no official figure.",
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "CBI",
+                                "RBI"
+                            ]
+                        },
+                        "description": "Programme family: \"CBI\" grants citizenship, \"RBI\" grants residence (golden visa). Omit for both.",
+                        "example": "CBI"
+                    },
+                    {
+                        "name": "budget_max",
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "description": "Maximum headline minimum investment the applicant will consider, in USD. Programmes with no fixed threshold are excluded from budget filtering.",
+                        "example": 250000
+                    },
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Region filter, matched case-insensitively (e.g. \"Caribbean\", \"EU\", \"Middle East\", \"Pacific\", \"Africa\", \"Asia\").",
+                        "example": "Caribbean"
+                    },
+                    {
+                        "name": "max_processing_months",
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "description": "Maximum acceptable processing time in MONTHS, compared against the lower bound of each programme's published range.",
+                        "example": 6
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Matching programmes"
+                    }
+                }
+            }
+        },
+        "/programmes/{id}": {
+            "get": {
+                "operationId": "getProgramme",
+                "summary": "Full detail for one programme.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Programme id as returned by list_programmes (e.g. \"dominica-cbi\", \"greece-gv\", \"portugal-gv\"). Not a country name and not a website slug.",
+                        "example": "dominica-cbi"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Programme detail"
+                    },
+                    "404": {
+                        "description": "Not found \u2014 the id could not be resolved. The body carries did_you_mean with the closest valid ids.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/programmes/{id}/cost": {
+            "get": {
+                "operationId": "estimateTotalCost",
+                "summary": "Estimate total cost for a family.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Programme id as returned by list_programmes (e.g. \"dominica-cbi\", \"greece-gv\", \"portugal-gv\"). Not a country name and not a website slug.",
+                        "example": "dominica-cbi"
+                    },
+                    {
+                        "name": "adults",
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "description": "Number of adult applicants including the main applicant.",
+                        "example": 2
+                    },
+                    {
+                        "name": "children_16plus",
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "description": "Number of dependent children aged 16 or over \u2014 usually priced higher than under-16s.",
+                        "example": 1
+                    },
+                    {
+                        "name": "children_under16",
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "description": "Number of dependent children aged under 16 \u2014 priced separately by most Caribbean programmes.",
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Indicative cost estimate"
+                    },
+                    "404": {
+                        "description": "Not found \u2014 the id could not be resolved. The body carries did_you_mean with the closest valid ids.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/programmes/{id}/visa-free": {
+            "get": {
+                "operationId": "checkVisaFree",
+                "summary": "Passport mobility for a programme.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Programme id as returned by list_programmes (e.g. \"dominica-cbi\", \"greece-gv\", \"portugal-gv\"). Not a country name and not a website slug.",
+                        "example": "dominica-cbi"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Mobility detail"
+                    },
+                    "404": {
+                        "description": "Not found \u2014 the id could not be resolved. The body carries did_you_mean with the closest valid ids.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/processing-times": {
+            "get": {
+                "operationId": "getProcessingTimes",
+                "summary": "Processing-time estimates.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Programme id as returned by list_programmes (e.g. \"dominica-cbi\", \"greece-gv\", \"portugal-gv\"). Not a country name and not a website slug.",
+                        "example": "dominica-cbi"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Processing times"
+                    }
+                }
+            }
+        },
+        "/recommend": {
+            "get": {
+                "operationId": "recommendProgrammes",
+                "summary": "Ranked shortlist for a client profile.",
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "CBI",
+                                "RBI"
+                            ]
+                        },
+                        "description": "Programme family: \"CBI\" grants citizenship, \"RBI\" grants residence (golden visa). Omit for both.",
+                        "example": "CBI"
+                    },
+                    {
+                        "name": "budget_max",
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "description": "Maximum headline minimum investment the applicant will consider, in USD. Programmes with no fixed threshold are excluded from budget filtering.",
+                        "example": 250000
+                    },
+                    {
+                        "name": "family_size",
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "description": "TOTAL number of people to be included, the main applicant INCLUDED (so a couple with two children is 4).",
+                        "example": 4
+                    },
+                    {
+                        "name": "mobility_priority",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "description": "True when visa-free travel is the applicant's main objective."
+                    },
+                    {
+                        "name": "timeline_max_months",
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "description": "Maximum acceptable time to the outcome, in MONTHS.",
+                        "example": 12
+                    },
+                    {
+                        "name": "tax_goal",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "description": "True when the applicant's main objective is a tax outcome rather than mobility."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ranked shortlist"
+                    }
+                }
+            }
+        },
+        "/compare": {
+            "get": {
+                "operationId": "compareProgrammes",
+                "summary": "Compare programmes. Pass a + b (two programme ids) for the canonical Mirabello Index comparison artefact (rank, composite, dimension scores, per-dimension deltas, per-metric leads, compare-page URL). Or ids (comma-separated, 2-4) for a side-by-side. Comparative facts only, no recommendation.",
+                "parameters": [
+                    {
+                        "name": "a",
+                        "in": "query",
+                        "required": false,
+                        "description": "programme id (use with b) for the canonical two-programme artefact",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "b",
+                        "in": "query",
+                        "required": false,
+                        "description": "programme id (use with a)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ids",
+                        "in": "query",
+                        "required": false,
+                        "description": "comma-separated programme ids (classic comparison)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Comparison artefact (a+b) or side-by-side comparison (ids)"
+                    },
+                    "400": {
+                        "description": "Unknown or identical programme ids; the response includes valid_ids_reference (/v1/index)"
+                    }
+                }
+            }
+        },
+        "/plan-path": {
+            "get": {
+                "operationId": "planPath",
+                "summary": "The Mirabello Freedom Compass \u2014 ORIGIN-AWARE path planner. Given current citizenship(s) + goal, returns ranked end-to-end routes with the mobility delta over the passport held, eligibility, multi-leg steps and a citation-first provenance block per route. Informational only.",
+                "parameters": [
+                    {
+                        "name": "from_citizenship",
+                        "in": "query",
+                        "required": true,
+                        "description": "ISO alpha-2 code(s), comma-separated, e.g. IN or US,GB",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "from_tax_residence",
+                        "in": "query",
+                        "description": "ISO alpha-2",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "goal",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "mobility",
+                                "plan_b",
+                                "tax",
+                                "business",
+                                "family",
+                                "education",
+                                "succession",
+                                "diversification",
+                                "unsure"
+                            ]
+                        },
+                        "description": "What the applicant is optimising for, in plain words: visa-free travel, tax residence, family relocation.",
+                        "example": "visa-free travel"
+                    },
+                    {
+                        "name": "budget_usd",
+                        "in": "query",
+                        "description": "Approximate investment budget in USD \u2014 treated as a \u00b115% band (routes within ~15% above or below are the cost sweet-spot; cheaper still shown, far-over penalised).",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "timeline_months",
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "description": "Target time to the outcome, in MONTHS.",
+                        "example": 9
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ranked origin-aware routes, each with a provenance block (verified_date, confidence, source_url, source_tier, status), plus a verification summary. Call /provenance for full W3C-PROV citations."
+                    }
+                }
+            }
+        },
+        "/index": {
+            "get": {
+                "operationId": "getIndex",
+                "summary": "The Mirabello Investment Migration Index \u2014 composite ranking of CBI/RBI programmes with transparent methodology. Returns the top 25 by default; pass limit for more or limit=0 for the full table.",
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "CBI",
+                                "RBI"
+                            ]
+                        },
+                        "description": "Programme family: \"CBI\" grants citizenship, \"RBI\" grants residence (golden visa). Omit for both.",
+                        "example": "CBI"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        },
+                        "description": "Maximum number of items to return. Responses can be large; use this to keep the answer small.",
+                        "example": 10
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Index rankings + methodology"
+                    }
+                }
+            }
+        },
+        "/countries": {
+            "get": {
+                "operationId": "listCountries",
+                "summary": "The country-intelligence layer \u2014 190+ countries covered. Each entry: ISO alpha-2 code, country, region, and available residence/citizenship pathways (validated records only). Use to establish coverage and pick countries to inspect in depth via /country/{cc}.",
+                "responses": {
+                    "200": {
+                        "description": "Covered countries with available pathways"
+                    }
+                }
+            }
+        },
+        "/country/{cc}": {
+            "get": {
+                "operationId": "getCountry",
+                "summary": "Full country intelligence for one country: residence/citizenship pathways, key metrics and (where verified) an HNWI tax snapshot, each carrying provenance. Informational only; figures indicative \u2014 verify against official sources.",
+                "parameters": [
+                    {
+                        "name": "cc",
+                        "in": "path",
+                        "required": true,
+                        "description": "ISO alpha-2 country code, e.g. GR, AE, PT",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "pathway",
+                        "in": "query",
+                        "required": false,
+                        "description": "optional pathway filter",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Country detail"
+                    },
+                    "404": {
+                        "description": "Country not in the validated coverage set"
+                    }
+                }
+            }
+        },
+        "/pathways": {
+            "get": {
+                "operationId": "findPathways",
+                "summary": "Find which of the 190+ covered countries offer a given immigration pathway (e.g. digital-nomad, skilled-work, ancestry-descent, retirement-passive, golden-visa). Returns the screened countries that have it.",
+                "parameters": [
+                    {
+                        "name": "pathway",
+                        "in": "query",
+                        "required": true,
+                        "description": "pathway key, e.g. digital-nomad",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Region filter, matched case-insensitively (e.g. \"Caribbean\", \"EU\", \"Middle East\", \"Pacific\", \"Africa\", \"Asia\").",
+                        "example": "Caribbean"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Countries offering the pathway"
+                    }
+                }
+            }
+        },
+        "/passport-renewal": {
+            "get": {
+                "operationId": "getPassportRenewal",
+                "summary": "CBI passport-renewal facts for a programme country (St Kitts, Antigua, Dominica, Grenada, St Lucia, Vanuatu): official renewal fees, passport validity, processing, remote-renewal, biometric/ECCIRA status + deadlines, sources and last_verified. Omit country for all six. Information only.",
+                "parameters": [
+                    {
+                        "name": "country",
+                        "in": "query",
+                        "required": false,
+                        "description": "programme id (e.g. st-kitts-cbi, st-lucia-cbi) or country alias; omit for all six",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Renewal artefact for one country, or the six-country overview when country is omitted"
+                    },
+                    "400": {
+                        "description": "Unknown country id; the response includes valid_ids (the six programme ids)"
+                    }
+                }
+            }
+        },
+        "/status": {
+            "get": {
+                "operationId": "status",
+                "summary": "Data freshness + version (poll for updates).",
+                "responses": {
+                    "200": {
+                        "description": "Freshness metadata"
+                    }
+                }
+            }
+        },
+        "/book": {
+            "post": {
+                "operationId": "bookConsultation",
+                "summary": "Book a free consultation (requires email + explicit GDPR consent).",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "email"
+                                ],
+                                "properties": {
+                                    "salutation": {
+                                        "type": "string",
+                                        "enum": [
+                                            "Mr.",
+                                            "Ms.",
+                                            "Mrs.",
+                                            "Sheikh",
+                                            "Prof.",
+                                            "Dr."
+                                        ]
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "phone": {
+                                        "type": "string"
+                                    },
+                                    "preferred_channel": {
+                                        "type": "string",
+                                        "enum": [
+                                            "email",
+                                            "phone",
+                                            "whatsapp",
+                                            "telegram",
+                                            "wechat"
+                                        ]
+                                    },
+                                    "programme_interest": {
+                                        "type": "string"
+                                    },
+                                    "goal": {
+                                        "type": "string"
+                                    },
+                                    "budget": {
+                                        "type": "string"
+                                    },
+                                    "timeline": {
+                                        "type": "string"
+                                    },
+                                    "nationality": {
+                                        "type": "string"
+                                    },
+                                    "residence_country": {
+                                        "type": "string"
+                                    },
+                                    "marital_status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "Yes",
+                                            "No"
+                                        ]
+                                    },
+                                    "number_of_children": {
+                                        "type": "number"
+                                    },
+                                    "childrens_ages": {
+                                        "type": "string"
+                                    },
+                                    "family_size": {
+                                        "type": "string"
+                                    },
+                                    "message": {
+                                        "type": "string"
+                                    },
+                                    "source": {
+                                        "type": "string",
+                                        "description": "origin surface for attribution \u2014 pass the tag assigned to this listing (chatgpt-gpt | chatgpt-app | claude | gemini | kimi | mistral | copilot). Threads into the lead record and the booking UTM."
+                                    },
+                                    "consent": {
+                                        "type": "boolean"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Received or consent_required"
+                    }
+                }
+            }
+        },
+        "/briefing": {
+            "post": {
+                "operationId": "generateBriefing",
+                "summary": "Generate a personalised programme briefing: profile in, ranked shortlist with family cost math + shareable 90-day briefing URL out. Optional email+consent registers specialist follow-up.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "nationality": {
+                                        "type": "string"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "CBI",
+                                            "RBI"
+                                        ]
+                                    },
+                                    "budget_max": {
+                                        "type": "number"
+                                    },
+                                    "adults": {
+                                        "type": "number"
+                                    },
+                                    "children_16plus": {
+                                        "type": "number"
+                                    },
+                                    "children_under16": {
+                                        "type": "number"
+                                    },
+                                    "mobility_priority": {
+                                        "type": "boolean"
+                                    },
+                                    "timeline_max_months": {
+                                        "type": "number"
+                                    },
+                                    "tax_goal": {
+                                        "type": "boolean"
+                                    },
+                                    "goal": {
+                                        "type": "string"
+                                    },
+                                    "programme_ids": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "consent": {
+                                        "type": "boolean"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "briefing_url + structured shortlist"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Error": {
+                "type": "object",
+                "description": "Error envelope. A wrong programme id returns did_you_mean with the closest real ids.",
+                "properties": {
+                    "error": {
+                        "type": "string",
+                        "description": "What went wrong, in plain words."
+                    },
+                    "did_you_mean": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "Closest valid programme ids, when the id could not be resolved."
+                    }
+                }
+            }
+        }
+    }
+}
