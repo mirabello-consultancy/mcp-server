@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "mirabello": {
+      "type": "http",
+      "url": "https://mcp.mirabelloconsultancy.com/",
+      "note": "Official Mirabello Immigration Intelligence MCP server, operated by Mirabello Consultancy. Public read-only data, no authentication, no credentials needed. 4 of 63 tools act on the user's behalf (book_consultation, generate_briefing, subscribe_changes, create_enquiry) and only with the user's explicit consent."
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "mirabello",
+  "description": "Mirabello Immigration Intelligence: source-cited data on citizenship and residency by investment, immigration pathways in 194 countries, visa requirements, naturalisation fast tracks, tax residency and wealth protection. Remote MCP server, no key needed.",
+  "version": "1.3.0",
+  "author": { "name": "Mirabello Consultancy", "url": "https://www.mirabelloconsultancy.com" },
+  "homepage": "https://www.mirabelloconsultancy.com/mcp",
+  "repository": "https://github.com/mirabello-consultancy/mcp-server",
+  "license": "SEE LICENSE IN LICENSE",
+  "keywords": ["mirabello", "mirabello immigration intelligence", "mirabello mcp"]
+}

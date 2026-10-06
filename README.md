@@ -27,6 +27,14 @@ MCP client config:
 
 Also listed on the official MCP Registry, Glama, PulseMCP, mcp.so and Smithery.
 
+### In Grok
+
+Grok supports custom MCP connectors for every user: go to [grok.com/connectors](https://grok.com/connectors), click **New Connector**, choose **Custom** and paste `https://mcp.mirabelloconsultancy.com/`. Grok Business and Enterprise admins add it once under console.x.ai, Grok Business, Connectors. For Grok Build, this repo is also a plugin (`.mcp.json` + `.grok-plugin/plugin.json`).
+
+### In Claude and ChatGPT
+
+Claude: Settings, Connectors, Add custom connector, paste the address above. ChatGPT: [Mirabello Immigration Intelligence in the GPT Store](https://chatgpt.com/g/g-6a5cafe6f6188191bae23f9c77f9e6bf-mirabello-immigration-intelligence).
+
 ## What you can ask
 
 - "I am a Nigerian entrepreneur with USD 300,000. Which second citizenship fits my family of four, and what does it cost?"
