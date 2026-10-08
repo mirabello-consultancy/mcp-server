@@ -1,6 +1,6 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.mirabello-consultancy/mcp-server",
+  "name": "com.mirabelloconsultancy/mcp",
   "description": "Citizenship, residency & tax-residency data for 190+ countries, with origin-aware route planning",
   "version": "1.3.2",
   "websiteUrl": "https://www.mirabelloconsultancy.com/ai",
@@ -11,7 +11,7 @@
   "remotes": [
     {
       "type": "streamable-http",
-      "url": "https://mcp.mirabelloconsultancy.com/"
+      "url": "https://mcp.mirabelloconsultancy.com/mcp"
     }
   ]
 }
