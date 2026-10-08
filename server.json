@@ -1,8 +1,8 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.mirabello-consultancy/mcp-server",
-  "description": "Investment migration, relocation, tax residency & wealth-protection data: 98 programmes, 194 countries, 63 tools",
-  "version": "1.3.0",
+  "description": "Citizenship, residency & tax-residency data for 190+ countries, with origin-aware route planning",
+  "version": "1.3.2",
   "websiteUrl": "https://www.mirabelloconsultancy.com/ai",
   "repository": {
     "url": "https://github.com/mirabello-consultancy/mcp-server",
