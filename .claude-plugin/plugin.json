@@ -21,5 +21,8 @@
     "mcp"
   ],
   "privacyPolicyUrl": "https://www.mirabelloconsultancy.com/privacy-policy-2",
-  "icon": ".claude-plugin/icon.png"
+  "icon": ".claude-plugin/icon.png",
+  "supportUrl": "https://www.mirabelloconsultancy.com/contact-us-for-your-free-consultation",
+  "documentationUrl": "https://mcp.mirabelloconsultancy.com/developers",
+  "termsOfServiceUrl": "https://www.mirabelloconsultancy.com/ai"
 }
