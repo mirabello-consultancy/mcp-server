@@ -1,6 +1,6 @@
 {
   "name": "mirabello",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Mira, by Mirabello: source-cited data on citizenship and residency by investment, golden visas, immigration pathways in 190+ countries, visa requirements, naturalisation, tax residency and lawful global setup. Connects to the remote Mirabello MCP server (no account or key needed). General information, not legal, tax or immigration advice.",
   "mcpServers": {
     "mirabello": {

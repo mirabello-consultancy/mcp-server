@@ -1,8 +1,8 @@
 {
     "openapi": "3.1.0",
     "info": {
-        "title": "Mirabello Consultancy \u2014 Investment Migration API",
-        "version": "1.1.0",
+        "title": "Mirabello Immigration Intelligence API",
+        "version": "1.4.1",
         "description": "Read-only REST mirror of the Mirabello MCP server \u2014 an investment-migration intelligence layer covering 190+ countries. CBI/RBI programmes, cost estimates, passport mobility, per-country residence/citizenship pathways and HNWI tax snapshots. Indicative data; not legal/financial advice. \u00a9 Mirabello Consultancy Ltd.",
         "contact": {
             "name": "Mirabello Consultancy",

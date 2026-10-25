@@ -1,9 +1,19 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "com.mirabelloconsultancy/mcp",
+  "title": "Mirabello Immigration Intelligence",
   "description": "Citizenship, residency & tax-residency data for 190+ countries, with origin-aware route planning",
-  "version": "1.3.2",
-  "websiteUrl": "https://www.mirabelloconsultancy.com/ai",
+  "version": "1.4.1",
+  "websiteUrl": "https://www.mirabelloconsultancy.com/mcp",
+  "icons": [
+    {
+      "src": "https://mcp.mirabelloconsultancy.com/icon.png",
+      "mimeType": "image/png",
+      "sizes": [
+        "512x512"
+      ]
+    }
+  ],
   "repository": {
     "url": "https://github.com/mirabello-consultancy/mcp-server",
     "source": "github"
