@@ -3,7 +3,7 @@
 > The first Model Context Protocol (MCP) server for citizenship- and residency-by-investment, grown into a global relocation, tax-residency and wealth-protection data layer.
 > Maintained by [Mirabello Consultancy](https://www.mirabelloconsultancy.com), a Swiss boutique investment-migration advisory (Zurich, Dubai, Hong Kong SAR; Member of the Investment Migration Council (IMC), ACAMS-certified team).
 
-**63 tools · 98 investment-migration programmes · 194 countries · 1,229 verified immigration pathways · 199 × 199 visa matrix · 14 statute-read naturalisation regimes**
+**68 tools · 98 investment-migration programmes · 194 countries · 1,229 verified immigration pathways · 199 × 199 visa matrix · 14 statute-read naturalisation regimes**
 
 Every figure is sourced: official government sources first, corroborated where possible, with verification dates and confidence returned alongside the data. Where a fact cannot be verified, the server says so instead of guessing.
 
@@ -25,7 +25,7 @@ MCP client config:
 }
 ```
 
-Also listed on the official MCP Registry, Glama, PulseMCP, mcp.so and Smithery.
+Listed on the official MCP Registry (`com.mirabelloconsultancy/mcp`) and [Glama](https://glama.ai/mcp/servers).
 
 ### In Grok
 
@@ -34,6 +34,28 @@ Grok supports custom MCP connectors for every user: go to [grok.com/connectors](
 ### In Claude and ChatGPT
 
 Claude (web, desktop, mobile): Settings, Connectors, Add custom connector, paste the address above. ChatGPT: install [Mirabello Immigration from the ChatGPT plugin directory](https://chatgpt.com/plugins/plugin_asdk_app_6a6b503925b0819188bd4b6519d60f1a).
+
+### In Cursor
+
+This repository is a Cursor plugin (`.cursor-plugin/plugin.json` + `mcp.json`). Or add the server yourself in `~/.cursor/mcp.json`:
+
+```json
+{ "mcpServers": { "mirabello": { "url": "https://mcp.mirabelloconsultancy.com/mcp" } } }
+```
+
+### In VS Code (GitHub Copilot agent mode)
+
+```
+code --add-mcp '{"name":"mirabello","type":"http","url":"https://mcp.mirabelloconsultancy.com/mcp"}'
+```
+
+### In Gemini CLI
+
+This repository is a Gemini CLI extension (`gemini-extension.json`, with the Mira instructions in `GEMINI.md`):
+
+```
+gemini extensions install https://github.com/mirabello-consultancy/mcp-server
+```
 
 ### In Claude Code (plugin)
 

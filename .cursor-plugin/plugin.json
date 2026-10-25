@@ -1,0 +1,22 @@
+{
+  "name": "mirabello-immigration-intelligence",
+  "version": "1.4.0",
+  "description": "Mira, by Mirabello: source-cited data on citizenship and residency by investment, golden visas, immigration pathways in 190+ countries, visa requirements, naturalisation, tax residency and lawful global setup. Connects to the remote Mirabello MCP server (no account or key needed). General information, not legal, tax or immigration advice.",
+  "author": {
+    "name": "Mirabello Consultancy",
+    "email": "mail@mirabelloconsultancy.com"
+  },
+  "homepage": "https://www.mirabelloconsultancy.com/mcp",
+  "repository": "https://github.com/mirabello-consultancy/mcp-server",
+  "license": "SEE LICENSE IN LICENSE",
+  "keywords": [
+    "immigration",
+    "citizenship-by-investment",
+    "golden-visa",
+    "residency",
+    "relocation",
+    "tax-residency",
+    "mcp"
+  ],
+  "logo": "assets/logo.png"
+}
