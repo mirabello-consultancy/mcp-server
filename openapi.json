@@ -290,7 +290,7 @@
         "/compare": {
             "get": {
                 "operationId": "compareProgrammes",
-                "summary": "Compare programmes. Pass a + b (two programme ids) for the canonical Mirabello Index comparison artefact (rank, composite, dimension scores, per-dimension deltas, per-metric leads, compare-page URL). Or ids (comma-separated, 2-4) for a side-by-side. Comparative facts only, no recommendation.",
+                "summary": "Compare programmes. Set a + b (two programme ids) for the canonical Mirabello Index comparison artefact (rank, composite, dimension scores, per-dimension deltas, per-metric leads, compare-page URL). Or ids (comma-separated, 2-4) for a side-by-side. Comparative facts only, no recommendation.",
                 "parameters": [
                     {
                         "name": "a",
@@ -400,7 +400,7 @@
         "/index": {
             "get": {
                 "operationId": "getIndex",
-                "summary": "The Mirabello Investment Migration Index \u2014 composite ranking of CBI/RBI programmes with transparent methodology. Returns the top 25 by default; pass limit for more or limit=0 for the full table.",
+                "summary": "The Mirabello Investment Migration Index \u2014 composite ranking of CBI/RBI programmes with transparent methodology. Returns the top 25 by default; set limit for more or limit=0 for the full table.",
                 "parameters": [
                     {
                         "name": "type",
@@ -628,7 +628,7 @@
                                     },
                                     "source": {
                                         "type": "string",
-                                        "description": "origin surface for attribution \u2014 pass the tag assigned to this listing (chatgpt-gpt | chatgpt-app | claude | gemini | kimi | mistral | copilot). Threads into the lead record and the booking UTM."
+                                        "description": "origin surface for attribution \u2014 set the tag assigned to this listing (chatgpt-gpt | chatgpt-app | claude | gemini | kimi | mistral | copilot). Threads into the lead record and the booking UTM."
                                     },
                                     "consent": {
                                         "type": "boolean"

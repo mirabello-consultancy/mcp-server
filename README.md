@@ -84,7 +84,7 @@ The live server exposes 68 tools; the authoritative, always-current list is its 
 ### Countries, pathways and naturalisation (6)
 | Tool | Purpose |
 |---|---|
-| `get_country` | Every verified pathway for a country: skilled work, digital nomad, retirement, study, family, descent, investment, EU free movement; pass `nationality` to tailor it |
+| `get_country` | Every verified pathway for a country: skilled work, digital nomad, retirement, study, family, descent, investment, EU free movement; set `nationality` to tailor it |
 | `find_pathways` | Which countries offer a given pathway, with income thresholds and requirements |
 | `find_fastest_citizenship` | Naturalisation periods and nationality-based fast tracks read from the enacted statute; one call ranks a whole bloc (e.g. `bloc: "EU"`) |
 | `plan_path` | The Mirabello Freedom Compass: origin-aware planner from a person's current citizenship and goal to ranked routes |
