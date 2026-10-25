@@ -1,7 +1,7 @@
 # Mirabello Immigration Intelligence: MCP Server
 
 > The first Model Context Protocol (MCP) server for citizenship- and residency-by-investment, grown into a global relocation, tax-residency and wealth-protection data layer.
-> Maintained by [Mirabello Consultancy](https://www.mirabelloconsultancy.com), a Swiss boutique investment-migration advisory (Zurich, Dubai, Hong Kong SAR; IMC member, ACAMS certified).
+> Maintained by [Mirabello Consultancy](https://www.mirabelloconsultancy.com), a Swiss boutique investment-migration advisory (Zurich, Dubai, Hong Kong SAR; Member of the Investment Migration Council (IMC), ACAMS-certified team).
 
 **63 tools · 98 investment-migration programmes · 194 countries · 1,229 verified immigration pathways · 199 × 199 visa matrix · 14 statute-read naturalisation regimes**
 
@@ -33,7 +33,20 @@ Grok supports custom MCP connectors for every user: go to [grok.com/connectors](
 
 ### In Claude and ChatGPT
 
-Claude: Settings, Connectors, Add custom connector, paste the address above. ChatGPT: [Mirabello Immigration Intelligence in the GPT Store](https://chatgpt.com/g/g-6a5cafe6f6188191bae23f9c77f9e6bf-mirabello-immigration-intelligence).
+Claude (web, desktop, mobile): Settings, Connectors, Add custom connector, paste the address above. ChatGPT: install [Mirabello Immigration from the ChatGPT plugin directory](https://chatgpt.com/plugins/plugin_asdk_app_6a6b503925b0819188bd4b6519d60f1a).
+
+### In Claude Code (plugin)
+
+This repository is also a Claude Code plugin marketplace. The plugin connects the Mirabello MCP server and adds the Mira skill:
+
+```
+/plugin marketplace add mirabello-consultancy/mcp-server
+/plugin install mirabello@mirabello
+```
+
+Or connect the server directly: `claude mcp add --transport http mirabello https://mcp.mirabelloconsultancy.com`.
+
+**What the plugin does:** it only registers the remote MCP server `https://mcp.mirabelloconsultancy.com/` (HTTPS, no account or key) and the Mira skill (instructions, no code). It runs nothing on your machine and sends nothing anywhere else. Questions you ask go to that server to be answered. Four tools act on your behalf only with your explicit consent: `book_consultation`, `create_enquiry`, `generate_briefing` and `subscribe_changes`. They send the details you choose to share to Mirabello Consultancy. Privacy policy: https://www.mirabelloconsultancy.com/privacy-policy-2
 
 ## What you can ask
 
@@ -44,7 +57,9 @@ Claude: Settings, Connectors, Add custom connector, paste the address above. Cha
 - "Where can a Pakistani passport travel visa-free?"
 - "Compare the tax position of moving from Germany to the UAE versus Switzerland."
 
-## Tools (63)
+## Tools
+
+The live server exposes 68 tools; the authoritative, always-current list is its `tools/list` response and https://mcp.mirabelloconsultancy.com/developers. The catalogue below groups the main ones.
 
 59 tools are read-only. 4 act on the user's behalf (`book_consultation`, `generate_briefing`, `subscribe_changes`, `create_enquiry`), and only with explicit consent.
 

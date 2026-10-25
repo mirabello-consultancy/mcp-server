@@ -1,0 +1,16 @@
+{
+  "name": "mirabello",
+  "owner": { "name": "Mirabello Consultancy", "email": "mail@mirabelloconsultancy.com", "url": "https://www.mirabelloconsultancy.com" },
+  "metadata": { "description": "Official Claude plugin marketplace of Mirabello Consultancy." },
+  "plugins": [
+    {
+      "name": "mirabello",
+      "source": "./",
+      "description": "Mira, by Mirabello: investment-migration and relocation data for 190+ countries through the Mirabello MCP server.",
+      "version": "1.4.0",
+      "author": { "name": "Mirabello Consultancy" },
+      "homepage": "https://www.mirabelloconsultancy.com/mcp",
+      "category": "productivity"
+    }
+  ]
+}
