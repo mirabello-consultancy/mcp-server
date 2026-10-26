@@ -12,7 +12,7 @@ Every figure is sourced: official government sources first, corroborated where p
 Streamable HTTP, stateless JSON-RPC 2.0, no API key:
 
 ```
-https://mcp.mirabelloconsultancy.com/
+https://mcp.mirabelloconsultancy.com/mcp
 ```
 
 MCP client config:
@@ -20,7 +20,7 @@ MCP client config:
 ```json
 {
   "mcpServers": {
-    "mirabello": { "url": "https://mcp.mirabelloconsultancy.com/", "transport": "streamable-http" }
+    "mirabello": { "url": "https://mcp.mirabelloconsultancy.com/mcp", "transport": "streamable-http" }
   }
 }
 ```
@@ -29,11 +29,11 @@ Listed on the official MCP Registry (`com.mirabelloconsultancy/mcp`) and [Glama]
 
 ### In Grok
 
-Grok supports custom MCP connectors for every user: go to [grok.com/connectors](https://grok.com/connectors), click **New Connector**, choose **Custom** and paste `https://mcp.mirabelloconsultancy.com/`. Grok Business and Enterprise admins add it once under console.x.ai, Grok Business, Connectors. For Grok Build, this repo is also a plugin (`.mcp.json` + `.grok-plugin/plugin.json`).
+Grok supports custom MCP connectors for every user: go to [grok.com/connectors](https://grok.com/connectors), click **New Connector**, choose **Custom** and paste `https://mcp.mirabelloconsultancy.com/mcp`. Grok Business and Enterprise admins add it once under console.x.ai, Grok Business, Connectors. For Grok Build, this repo is also a plugin (`.mcp.json` + `.grok-plugin/plugin.json`).
 
 ### In Claude and ChatGPT
 
-Claude (web, desktop, mobile): Settings, Connectors, Add custom connector, paste the address above. ChatGPT: install [Mirabello Immigration from the ChatGPT plugin directory](https://chatgpt.com/plugins/plugin_asdk_app_6a6b503925b0819188bd4b6519d60f1a).
+Claude (every plan, including Free with one custom connector; web and Claude Desktop): [Customize, Connectors](https://claude.ai/customize/connectors), **+ Add**, **Add custom connector**, paste `https://mcp.mirabelloconsultancy.com/mcp`, then **Continue**. ChatGPT: install [Mirabello Immigration from the ChatGPT plugin directory](https://chatgpt.com/plugins/plugin_asdk_app_6a6b503925b0819188bd4b6519d60f1a).
 
 ### In Cursor
 
@@ -66,7 +66,15 @@ This repository is also a Claude Code plugin marketplace. The plugin connects th
 /plugin install mirabello@mirabello
 ```
 
-Or connect the server directly: `claude mcp add --transport http mirabello https://mcp.mirabelloconsultancy.com`.
+Or connect the server directly: `claude mcp add --transport http mirabello https://mcp.mirabelloconsultancy.com/mcp`.
+
+### In Codex
+
+```
+codex mcp add mirabello --url https://mcp.mirabelloconsultancy.com/mcp
+```
+
+In the Codex app: Settings, MCP servers, Add server, Streamable HTTP, paste the address.
 
 **What the plugin does:** it only registers the remote MCP server `https://mcp.mirabelloconsultancy.com/` (HTTPS, no account or key) and the Mira skill (instructions, no code). It runs nothing on your machine and sends nothing anywhere else. Questions you ask go to that server to be answered. Four tools act on your behalf only with your explicit consent: `book_consultation`, `create_enquiry`, `generate_briefing` and `subscribe_changes`. They send the details you choose to share to Mirabello Consultancy. Privacy policy: https://www.mirabelloconsultancy.com/privacy-policy-2
 
