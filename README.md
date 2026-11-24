@@ -3,7 +3,7 @@
 > The first Model Context Protocol (MCP) server for citizenship- and residency-by-investment, grown into a global relocation, tax-residency and wealth-protection data layer.
 > Maintained by [Mirabello Consultancy](https://www.mirabelloconsultancy.com), a Swiss boutique investment-migration advisory (Zurich, Dubai, Hong Kong SAR; Member of the Investment Migration Council (IMC), ACAMS-certified team).
 
-**68 tools · 98 investment-migration programmes · 194 countries · 1,229 verified immigration pathways · 199 × 199 visa matrix · 14 statute-read naturalisation regimes**
+**70 tools · 98 investment-migration programmes · 194 countries · 1,229 verified immigration pathways · 199 × 199 visa matrix · 14 statute-read naturalisation regimes**
 
 Every figure is sourced: official government sources first, corroborated where possible, with verification dates and confidence returned alongside the data. Where a fact cannot be verified, the server says so instead of guessing.
 
@@ -89,7 +89,7 @@ In the Codex app: Settings, MCP servers, Add server, Streamable HTTP, paste the 
 
 ## Tools
 
-The live server exposes 68 tools; the authoritative, always-current list is its `tools/list` response and https://mcp.mirabelloconsultancy.com/developers. The catalogue below groups the main ones.
+The live server exposes 70 tools; the authoritative, always-current list is its `tools/list` response and https://mcp.mirabelloconsultancy.com/developers. The catalogue below groups the main ones.
 
 59 tools are read-only. 4 act on the user's behalf (`book_consultation`, `generate_briefing`, `subscribe_changes`, `create_enquiry`), and only with explicit consent.
 

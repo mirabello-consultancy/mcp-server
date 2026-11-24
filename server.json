@@ -3,7 +3,7 @@
   "name": "com.mirabelloconsultancy/mcp",
   "title": "Mirabello Immigration Intelligence",
   "description": "Citizenship, residency & tax-residency data for 190+ countries, with origin-aware route planning",
-  "version": "1.4.3",
+  "version": "1.5.0",
   "websiteUrl": "https://www.mirabelloconsultancy.com/mcp",
   "icons": [
     {

@@ -2,7 +2,10 @@
     "openapi": "3.1.0",
     "info": {
         "title": "Mirabello Immigration Intelligence API",
-        "version": "1.4.3",
+        "version": "1.5.0",
+        "x-logo": {
+            "url": "https://mcp.mirabelloconsultancy.com/icon.png"
+        },
         "description": "Read-only REST mirror of the Mirabello MCP server \u2014 an investment-migration intelligence layer covering 190+ countries. CBI/RBI programmes, cost estimates, passport mobility, per-country residence/citizenship pathways and HNWI tax snapshots. Indicative data; not legal/financial advice. \u00a9 Mirabello Consultancy Ltd.",
         "contact": {
             "name": "Mirabello Consultancy",
@@ -82,7 +85,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "description": "Programme id as returned by list_programmes (e.g. \"dominica-cbi\", \"greece-gv\", \"portugal-gv\"). Not a country name and not a website slug.",
+                        "description": "Programme id as returned by list_programmes (e.g. \"dominica-cbi\", \"greece-gv\") or an unambiguous name (\"Dominica\", \"Portugal golden visa\"); an ambiguous name returns the candidates.",
                         "example": "dominica-cbi"
                     }
                 ],
@@ -115,7 +118,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "description": "Programme id as returned by list_programmes (e.g. \"dominica-cbi\", \"greece-gv\", \"portugal-gv\"). Not a country name and not a website slug.",
+                        "description": "Programme id as returned by list_programmes (e.g. \"dominica-cbi\", \"greece-gv\") or an unambiguous name (\"Dominica\", \"Portugal golden visa\"); an ambiguous name returns the candidates.",
                         "example": "dominica-cbi"
                     },
                     {
@@ -175,7 +178,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "description": "Programme id as returned by list_programmes (e.g. \"dominica-cbi\", \"greece-gv\", \"portugal-gv\"). Not a country name and not a website slug.",
+                        "description": "Programme id as returned by list_programmes (e.g. \"dominica-cbi\", \"greece-gv\") or an unambiguous name (\"Dominica\", \"Portugal golden visa\"); an ambiguous name returns the candidates.",
                         "example": "dominica-cbi"
                     }
                 ],
@@ -207,7 +210,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "description": "Programme id as returned by list_programmes (e.g. \"dominica-cbi\", \"greece-gv\", \"portugal-gv\"). Not a country name and not a website slug.",
+                        "description": "Programme id as returned by list_programmes (e.g. \"dominica-cbi\", \"greece-gv\") or an unambiguous name (\"Dominica\", \"Portugal golden visa\"); an ambiguous name returns the candidates.",
                         "example": "dominica-cbi"
                     }
                 ],
@@ -290,7 +293,7 @@
         "/compare": {
             "get": {
                 "operationId": "compareProgrammes",
-                "summary": "Compare programmes. Set a + b (two programme ids) for the canonical Mirabello Index comparison artefact (rank, composite, dimension scores, per-dimension deltas, per-metric leads, compare-page URL). Or ids (comma-separated, 2-4) for a side-by-side. Comparative facts only, no recommendation.",
+                "summary": "Compare programmes. Pass a + b (two programme ids) for the canonical Mirabello Index comparison artefact (rank, composite, dimension scores, per-dimension deltas, per-metric leads, compare-page URL). Or ids (comma-separated, 2-4) for a side-by-side. Comparative facts only, no recommendation.",
                 "parameters": [
                     {
                         "name": "a",
@@ -400,7 +403,7 @@
         "/index": {
             "get": {
                 "operationId": "getIndex",
-                "summary": "The Mirabello Investment Migration Index \u2014 composite ranking of CBI/RBI programmes with transparent methodology. Returns the top 25 by default; set limit for more or limit=0 for the full table.",
+                "summary": "The Mirabello Investment Migration Index \u2014 composite ranking of CBI/RBI programmes with transparent methodology. Returns the top 25 by default; pass limit for more or limit=0 for the full table.",
                 "parameters": [
                     {
                         "name": "type",
@@ -505,6 +508,235 @@
                 "responses": {
                     "200": {
                         "description": "Countries offering the pathway"
+                    }
+                }
+            }
+        },
+        "/services": {
+            "get": {
+                "operationId": "listMalteseCitizenServices",
+                "summary": "Maltese Citizen Services overview: passport renewal, newborn registration + first passport, citizenship by marriage (and planned descent) for Maltese citizens and families in Malta and abroad. Not investment citizenship.",
+                "responses": {
+                    "200": {
+                        "description": "Overview of services with links to each service artefact"
+                    }
+                }
+            }
+        },
+        "/services/{id}": {
+            "get": {
+                "operationId": "getMalteseCitizenService",
+                "summary": "One Maltese citizen service: steps, documents, itemised official fees (verified flag + source), official vs observed timelines, authority, missions for the residence country, and Mirabello coordination scope.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "passport-renewal | newborn | marriage | descent (or the full id, e.g. malta-passport-renewal)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "residence_country",
+                        "in": "query",
+                        "required": false,
+                        "description": "Country name or ISO code where the applicant lives (selects in-Malta vs abroad procedure and missions)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "applicant_age",
+                        "in": "query",
+                        "required": false,
+                        "description": "Age of the passport holder (passport service only)",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Service artefact"
+                    },
+                    "404": {
+                        "description": "Unknown service id"
+                    }
+                }
+            }
+        },
+        "/malta/passport-fee": {
+            "get": {
+                "operationId": "estimateMaltaPassportFee",
+                "summary": "Itemised official Maltese passport fee by age band, season, urgent service, lost/stolen supplement and mission fee (abroad). Deterministic from the Identit\u00e0 fee table.",
+                "parameters": [
+                    {
+                        "name": "age",
+                        "in": "query",
+                        "required": true,
+                        "description": "Age in years",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "required": false,
+                        "description": "malta | abroad",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "malta",
+                                "abroad"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "urgent",
+                        "in": "query",
+                        "required": false,
+                        "description": "true for the official urgent service",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "lost_still_valid",
+                        "in": "query",
+                        "required": false,
+                        "description": "true if replacing a lost/stolen passport that was still valid",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "month",
+                        "in": "query",
+                        "required": false,
+                        "description": "Application month 1-12 (seasonal adult fee)",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Fee estimate"
+                    },
+                    "400": {
+                        "description": "Missing or invalid age"
+                    }
+                }
+            }
+        },
+        "/malta/eligibility": {
+            "get": {
+                "operationId": "checkMalteseCitizenshipEligibility",
+                "summary": "Rules-based screen for Maltese citizenship by birth/descent (1989 rule, Form I) or by marriage (5-year rule, Form B). A screen, not a legal determination.",
+                "parameters": [
+                    {
+                        "name": "route",
+                        "in": "query",
+                        "required": true,
+                        "description": "birth | marriage",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "birth",
+                                "marriage"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "birth_date",
+                        "in": "query",
+                        "required": false,
+                        "description": "birth route: YYYY-MM-DD",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "born_in_malta",
+                        "in": "query",
+                        "required": false,
+                        "description": "birth route",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "maltese_parent",
+                        "in": "query",
+                        "required": false,
+                        "description": "birth route: mother | father | both",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "parent_citizenship_basis",
+                        "in": "query",
+                        "required": false,
+                        "description": "birth route: birth | descent_automatic | registration_by_descent | registration_other | naturalisation",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "marriage_date",
+                        "in": "query",
+                        "required": false,
+                        "description": "marriage route: YYYY-MM-DD",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "living_together",
+                        "in": "query",
+                        "required": false,
+                        "description": "marriage route",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "spouse_deceased",
+                        "in": "query",
+                        "required": false,
+                        "description": "marriage route",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "separated",
+                        "in": "query",
+                        "required": false,
+                        "description": "marriage route",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "marriage_registered_in_malta",
+                        "in": "query",
+                        "required": false,
+                        "description": "marriage route",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Screening outcome with reasons and next steps"
+                    },
+                    "400": {
+                        "description": "Missing or invalid input"
                     }
                 }
             }
@@ -628,7 +860,7 @@
                                     },
                                     "source": {
                                         "type": "string",
-                                        "description": "origin surface for attribution \u2014 set the tag assigned to this listing (chatgpt-gpt | chatgpt-app | claude | gemini | kimi | mistral | copilot). Threads into the lead record and the booking UTM."
+                                        "description": "origin surface for attribution \u2014 pass the tag assigned to this listing (chatgpt-gpt | chatgpt-app | claude | gemini | kimi | mistral | copilot). Threads into the lead record and the booking UTM."
                                     },
                                     "consent": {
                                         "type": "boolean"
